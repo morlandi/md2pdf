@@ -18,6 +18,7 @@ def md2pdf(
     footer_content=None,
     footer_file_path=None,
     base_url=None,
+    debug=False,
 ):
     """
     Converts input markdown to styled HTML and renders it to a PDF file.
@@ -32,6 +33,7 @@ def md2pdf(
         footer_content: input HTML footer raw string content.
         footer_file_path: input HTML footer file path.
         base_url: absolute base path for markdown linked content (as images).
+        debug: print raw html to console
 
     Returns:
         None
@@ -67,6 +69,21 @@ def md2pdf(
     css = []
     if css_file_path:
         css.append(CSS(filename=css_file_path))
+
+    # Printrow html to console ?
+    if debug and md_file_path:
+        n = 128
+        print('\n' + '=' * n)
+        print(pdf_file_path)
+        print('=' * n)
+        if raw_header:
+            print(raw_header)
+            print('-' * n)
+        print(raw_html)
+        if raw_footer:
+            print('-' * n)
+            print(raw_footer)
+        print('=' * n)
 
     # PdfGenerator using Weasyprint
     pdf_generator = PdfGenerator(
